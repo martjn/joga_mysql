@@ -20,26 +20,13 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const articleRoutes = require('./routes/article');
+const authorRoutes = require('./routes/author');
 
 app.use('/', articleRoutes);
 app.use('/article', articleRoutes);
+app.use('/author', authorRoutes);
 
-app.get("/author/:idx", (req, res) => {
-  let query = `SELECT * from article as a, author as b WHERE a.author_id=${req.params.idx} and a.author_id=b.id;`;
-  let query2 = `SELECT * from author where id=${req.params.idx};`;
-  let articles = [];
-  let authors = [];
-  con.query(query, (err, articles) => {
-    if (err) throw err;
-    con.query(query2, (err, authors) => {
-      if(err) throw err;
-      res.render("author", {
-        articles: articles,
-        authors: authors
-      })
-    })
-  });
-});
+
 
 // app start
 app.listen(3000, () => {
