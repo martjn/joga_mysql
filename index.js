@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 });
 
 app.get('/article/:slug', (req, res) => {
-  let query = `SELECT * from article WHERE slug="${req.params.slug}"`
+  let query = `SELECT * from article, author WHERE slug="${req.params.slug}" and author.id=article.id;`
   let article
   con.query(query, (err, result) => {
     if(err) throw err;
