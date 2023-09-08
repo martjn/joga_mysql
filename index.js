@@ -16,46 +16,14 @@ app.engine(
 
 app.use(express.static("public"));
 
-const mysql = require("mysql2");
-
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Ij6lS*H?ScwD",
-  database: "joga_mysql",
-});
+const articleRoutes = require('./routes/article');
 
-con.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected to joga_mysql db");
-});
+app.use('/', articleRoutes);
+app.use('/article', articleRoutes);
 
-app.get("/", (req, res) => {
-  let query = "SELECT * FROM article";
-  let articles = [];
-  con.query(query, (err, result) => {
-    if (err) throw err;
-    articles = result;
-    res.render("index", {
-      articles: articles,
-    });
-  });
-});
-
-app.get("/article/:slug", (req, res) => {
-  let query = `SELECT * from article, author WHERE slug="${req.params.slug}" and author.id=article.author_id;`;
-  let article;
-  con.query(query, (err, result) => {
-    if (err) throw err;
-    article = result;
-    res.render("article", {
-      article: article,
-    });
-  });
-});
 app.get("/author/:idx", (req, res) => {
   let query = `SELECT * from article as a, author as b WHERE a.author_id=${req.params.idx} and a.author_id=b.id;`;
   let query2 = `SELECT * from author where id=${req.params.idx};`;
