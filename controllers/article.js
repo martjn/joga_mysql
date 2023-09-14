@@ -1,38 +1,41 @@
-const Article = require('../models/article.model.js');
+const Article = require("../models/article.model.js");
 
 // show articles - index page
 const getAllArticles = (req, res) => {
   Article.getAll((err, data) => {
-    if(err){
+    if (err) {
       res.status(500).send({
-        message: err.message || "Some error occurred retrieving articles data"
-      })
-    }
-    else{
-      console.log(data)
+        message: err.message || "Some error occurred retrieving articles data",
+      });
+    } else {
+      console.log(data);
       res.render("index", {
-        articles: data
-      })
+        articles: data,
+      });
     }
-  })
-}
+  });
+};
 
 // show article by slug
 const getArticleBySlug = (req, res) => {
-  let query = `SELECT * from article, author WHERE slug="${req.params.slug}" and author.id=article.author_id;`;
-  let article;
-  con.query(query, (err, result) => {
-    if (err) throw err;
-    article = result;
-    res.render("article", {
-      article: article,
+  Article.getBySlug =
+    (req.params.slug,
+    (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Some error occured retrieving article data",
+        });
+      } else {
+        console.log(data);
+        res.render("article", {
+          article: data,
+        });
+      }
     });
-  });
-
-}
+};
 
 // export controller functions
 module.exports = {
   getAllArticles,
-  getArticleBySlug
+  getArticleBySlug,
 };
