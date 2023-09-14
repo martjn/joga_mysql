@@ -28,7 +28,7 @@ Article.getAll = (result) => {
 }
 
 Article.getBySlug = (slug, result) => {
-  let query = `SELECT * from article, author WHERE slug="${req.params.slug}" and author.id=article.author_id;`
+  let query = `SELECT * from article, author WHERE slug="${slug}" and author.id=article.author_id;`
   let article
   con.query(query, (err, res) => {
     if(err){
@@ -36,11 +36,13 @@ Article.getBySlug = (slug, result) => {
       result(err, null)
       return;
     }
+
     if(res.length){
       console.log("found article: ", res[0]);
       result(null, res[0])
+      return;
     }
-  })
+  });
 }
 
 module.exports = Article;

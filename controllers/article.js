@@ -18,20 +18,18 @@ const getAllArticles = (req, res) => {
 
 // show article by slug
 const getArticleBySlug = (req, res) => {
-  Article.getBySlug =
-    (req.params.slug,
-    (err, data) => {
-      if (err) {
-        res.status(500).send({
-          message: err.message || "Some error occured retrieving article data",
-        });
-      } else {
-        console.log(data);
-        res.render("article", {
-          article: data,
-        });
-      }
-    });
+  Article.getBySlug(req.params.slug, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Some error occured retrieving article data",
+      });
+    } else {
+      console.log(data);
+      res.render("article", {
+        article: data,
+      });
+    }
+  });
 };
 
 // export controller functions
