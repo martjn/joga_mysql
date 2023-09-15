@@ -24,7 +24,6 @@ Author.getByAuthor = (author_id, result) => {
         return;
       }
       result(null, authors)
-      console.log("Authors result: " + authors)
     })
   })
 

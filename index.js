@@ -18,6 +18,7 @@ app.use(express.static("public"));
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}))
 
 const articleRoutes = require('./routes/article');
 const authorRoutes = require('./routes/author');

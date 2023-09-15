@@ -8,7 +8,7 @@ const getArticleByAuthor = (req, res) => {
       })
     }
     else{
-      console.log(`data.authors: ${data.authors}`)
+      console.log(`Author.js data: ${data}`)
       res.render("author", {
         articles: data,
         authors: data[0],
