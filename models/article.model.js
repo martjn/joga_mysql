@@ -113,4 +113,23 @@ Article.updateById = (articleId, updatedArticle, result) => {
   });
 };
 
+Article.deleteById = (id, result) => {
+  let query = `DELETE FROM article WHERE id="${id}"`;
+  con.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.affectedRows > 0) {
+      console.log("deleted article with id: ", id);
+      result(null, { id: id });
+      return;
+    } else {
+      result({ kind: "not_found" }, null);
+    }
+  });
+};
+
 module.exports = Article;

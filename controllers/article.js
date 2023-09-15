@@ -99,6 +99,18 @@ const updateArticle = (req, res) => {
   }
 };
 
+const deleteArticle = (req, res) => {
+  Article.deleteById(req.params.id, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Some error occurred deleting the article.",
+      });
+    } else {
+      res.redirect('/');  // Edasisuunamine pealehele pärast kustutamist
+    }
+  });
+};
+
 // export controller functions
 module.exports = {
   getAllArticles,
@@ -106,4 +118,5 @@ module.exports = {
   createNewArticle,
   showNewArticleForm,
   updateArticle,
+  deleteArticle,
 };
