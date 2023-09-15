@@ -58,7 +58,7 @@ const createNewArticle = (req, res) => {
 
 // display article form
 const showNewArticleForm = (req, res) => {
-  res.render("create article")
+  res.render("create_article")
 }
 
 // export controller functions
