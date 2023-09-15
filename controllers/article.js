@@ -61,10 +61,49 @@ const showNewArticleForm = (req, res) => {
   res.render("create_article")
 }
 
+// edit article
+const updateArticle = (req, res) => {
+  if (req.method === "GET") {
+    // Kui GET päring, lae andmed andmebaasist ja näita redigeerimisvormi
+    Article.getById(req.params.id, (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Some error occurred retrieving article data",
+        });
+      } else {
+        res.render("edit_article", {
+          article: data,
+        });
+      }
+    });
+  } else if (req.method === "POST") {
+    // Kui POST päring, uuenda artiklit andmebaasis
+    const updatedArticle = new Article({
+      name: req.body.name,
+      slug: req.body.slug,
+      image: req.body.image,
+      body: req.body.body,
+      published: new Date().toISOString().slice(0, 19).replace("T", " "),
+      author_id: req.body.author_id,
+    });
+
+    Article.updateById(req.params.id, updatedArticle, (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Some error occurred updating article data",
+        });
+      } else {
+        res.redirect('/');  // Uuendatud artikli näitamiseks või edasisuunamine kuhu iganes soovid
+      }
+    });
+  }
+};
+
 // export controller functions
 module.exports = {
   getAllArticles,
   getArticleBySlug,
   createNewArticle,
   showNewArticleForm,
+  updateArticle,
 };
